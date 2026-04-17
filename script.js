@@ -1,3 +1,18 @@
+class TitleScreen extends Phaser.Scene {
+    constructor() {
+        super("titleScene");
+    }
+
+    create() {
+
+    }
+
+    update() {
+
+    }
+
+}
+
 class Logo extends Phaser.Scene {
     constructor() {
         super("introScene");
