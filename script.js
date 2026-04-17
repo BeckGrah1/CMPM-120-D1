@@ -1,4 +1,4 @@
-class Intro extends Phaser.Scene {
+class Logo extends Phaser.Scene {
     constructor() {
         super("introScene");
     }
@@ -16,15 +16,12 @@ class Intro extends Phaser.Scene {
             targets: this.Moji,
             x: 300,
             duration: 2000,
-            ease: 'EaseOutSine'
+            ease: 'Sine.Out'
         })
     }
 
     update() {
-        // moves the cat into center from the left
-        if (this.Moji.x < 400) {
-            this.Moji.x += 5;
-        }
+
     }
 }
 
@@ -33,7 +30,7 @@ let config = {
     width: 800,
     height: 600,
     backgroundColor: 0x729482,
-    scene: [Intro],
+    scene: [Logo],
 }
 
 let game = new Phaser.Game(config);
