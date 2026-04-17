@@ -3,8 +3,12 @@ class TitleScreen extends Phaser.Scene {
         super("titleScene");
     }
 
-    create() {
+    preload() {
 
+    }
+
+    create() {
+        this.titleText = this.add.text(400, 300, "My Game Title", { fontSize: '64px', fill: '#fff' });
     }
 
     update() {
