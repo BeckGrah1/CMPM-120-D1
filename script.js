@@ -25,6 +25,8 @@ class Logo extends Phaser.Scene {
     preload() {
         // loads the cat image
         this.load.image('Moji_Pixel 3.png', './assets/Moji_Pixel 3.png');
+        this.load.spritesheet("Moji Pixel Walking Spritesheet.png", "./assets/Moji Pixel Walking Spritesheet.png", { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet("Moji Pixel Idle Spritesheet.png", "./assets/Moji Pixel Idle Spritesheet.png", { frameWidth: 32, frameHeight: 32 });
     }
 
     create() {
