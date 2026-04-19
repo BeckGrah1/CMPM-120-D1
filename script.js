@@ -27,6 +27,10 @@ class Logo extends Phaser.Scene {
         this.load.image('Moji_Pixel 3.png', './assets/Moji_Pixel 3.png');
         this.load.spritesheet('Moji_Pixel_Walking_Spritesheet.png', "./assets/images/Moji_Pixel_Walking_Spritesheet.png", { frameWidth: 32, frameHeight: 32 });
         this.load.spritesheet("Moji_Pixel_Idle_Spritesheet.png", "./assets/images/Moji_Pixel_Idle_Spritesheet.png", { frameWidth: 32, frameHeight: 32 });
+
+        // add audio assets
+        this.catMeow = this.load.audio('catMeow', ['./assets/audio/catMeow.wav', './assets/audio/catMeow.mp3']);
+        this.backgroundMusic = this.load.audio('backgroundMusic', ['./assets/audio/backgroundMusic.wav', './assets/audio/backgroundMusic.mp3']);
     }
 
     create() {
@@ -64,6 +68,7 @@ class Logo extends Phaser.Scene {
                     this.MojiWalking.stop();
                     this.MojiIdle.setVisible(true);
                     this.MojiIdle.play('Moji_Idle_Animation', false, 4); // need it to start on the 2nd frame to match the walking animation
+                    this.sound.play('catMeow');
                     this.MojiWalking.setVisible(false);
                 }
             }
