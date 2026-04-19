@@ -25,12 +25,14 @@ class Logo extends Phaser.Scene {
     preload() {
         // loads the cat image
         this.load.image('Moji_Pixel 3.png', './assets/Moji_Pixel 3.png');
-        this.load.spritesheet('Moji_Pixel_Walking_Spritesheet.png', "./assets/Moji_Pixel_Walking_Spritesheet.png", { frameWidth: 32, frameHeight: 32 });
-        this.load.spritesheet("Moji_Pixel_Idle_Spritesheet.png", "./assets/Moji_Pixel_Idle_Spritesheet.png", { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('Moji_Pixel_Walking_Spritesheet.png', "./assets/images/Moji_Pixel_Walking_Spritesheet.png", { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet("Moji_Pixel_Idle_Spritesheet.png", "./assets/images/Moji_Pixel_Idle_Spritesheet.png", { frameWidth: 32, frameHeight: 32 });
     }
 
     create() {
-        // adds Moji (the cat) to the scene, starting off-screen to the left
+        // timeline for tweens
+        const timeline = this.add.timeline();
+        // adds Moji spritesheets to scene and creates animations for them, sets idle to invisible and plays walking animation
         this.MojiWalking = this.add.sprite(-300, 300, 'Moji_Pixel_Walking_Spritesheet.png');
         this.MojiWalking.setScale(10);
         this.MojiIdle = this.add.sprite(400, 300, 'Moji_Pixel_Idle_Spritesheet.png');
@@ -49,21 +51,28 @@ class Logo extends Phaser.Scene {
         });
         this.MojiIdle.setVisible(false);
         this.MojiWalking.play('Moji_Walk_Animation');
-        this.tweens.add({
-            targets: this.MojiWalking,
-            x: 400,
-            duration: 2000,
-            ease: 'Sine.Out'
-        })
+
+        // set up tweens to be used in the timeline
+        timeline.add({
+            at: 0,
+            tween: {
+                targets: this.MojiWalking,
+                x: 400,
+                duration: 3999,
+                ease: 'Sine.Out',
+                onComplete: () => {
+                    this.MojiWalking.stop();
+                    this.MojiIdle.setVisible(true);
+                    this.MojiIdle.play('Moji_Idle_Animation', false, 4); // need it to start on the 2nd frame to match the walking animation
+                    this.MojiWalking.setVisible(false);
+                }
+            }
+        });
+
+        timeline.play();
     }
 
     update() {
-        if (this.MojiIdle.visible == false && this.MojiWalking.x >= 400) {
-            this.MojiWalking.stop();
-            this.MojiIdle.setVisible(true);
-            this.MojiIdle.play('Moji_Idle_Animation');
-            this.MojiWalking.setVisible(false);
-        }
     }
 }
 
