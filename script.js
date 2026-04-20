@@ -212,13 +212,23 @@ class TitleScreen extends Phaser.Scene {
             this.timeline.add({
                 at: 0,
                 tween: {
-                    targets: [this.menuRectangle, this.firstText, this.secondText, this.thirdText, this.fourthText, this.fifthText, this.dice1, this.dice2, this.dice3, this.dice4, this.dice5],
-                    x: -500,
+                    targets: [this.menuRectangle, this.firstText, this.secondText, this.thirdText, this.fourthText, this.fifthText],
+                    x: -200,
                     duration: 1000,
                     ease: 'Sine.In',
                     onComplete: () => {
                         this.scene.start("saveScene");
                     }
+                }
+            });
+
+            this.timeline.add({
+                at: 0,
+                tween: {
+                    targets: [this.dice1, this.dice2, this.dice3, this.dice4, this.dice5],
+                    x: -100,
+                    duration: 500,
+                    ease: 'Sine.In'
                 }
             });
 
