@@ -19,7 +19,7 @@ class TitleScreen extends Phaser.Scene {
 
 class Logo extends Phaser.Scene {
     constructor() {
-        super("introScene");
+        super("logoScene");
     }
 
     preload() {
@@ -34,6 +34,13 @@ class Logo extends Phaser.Scene {
     }
 
     create() {
+        // start background music and set it to loop
+        this.sound.play('backgroundMusic', { loop: true });
+
+        // add text to scene
+        this.madeByText = this.add.text(400, -100, "A game by", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
+        this.pixelCatText = this.add.text(400, 700, "Pixel Cat", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
+
         // timeline for tweens
         const timeline = this.add.timeline();
         // adds Moji spritesheets to scene and creates animations for them, sets idle to invisible and plays walking animation
@@ -74,10 +81,104 @@ class Logo extends Phaser.Scene {
             }
         });
 
+        timeline.add({
+            at: 3500,
+            tween: {
+                targets: this.madeByText,
+                y: 100,
+                duration: 2000,
+                ease: 'Sine.Out'
+            }
+        });
+
+        timeline.add({
+            at: 4000,
+            tween: {
+                targets: this.pixelCatText,
+                y: 500,
+                duration: 2000,
+                ease: 'Sine.Out'
+            }
+        });
+
+        timeline.add({
+            at: 6000,
+            tween: {
+                targets: [this.MojiWalking],
+                x: 1000,
+                duration: 4000,
+                ease: 'Sine.In',
+                onStart: () => {
+                    this.MojiIdle.stop();
+                    this.MojiIdle.setVisible(false);
+                    this.MojiWalking.setVisible(true);
+                    this.MojiWalking.play('Moji_Walk_Animation');
+                }
+            }
+        });
+
+        timeline.add({
+            at: 6000,
+            tween: {
+                targets: this.pixelCatText,
+                y: 700,
+                duration: 2000,
+                ease: 'Sine.In'
+            }
+        })
+
+        timeline.add({
+            at: 6000,
+            tween: {
+                targets: this.madeByText,
+                y: -100,
+                duration: 2000,
+                ease: 'Sine.In'
+            }
+        })
+
+        timeline.add({
+            at: 10000,
+            event: "sceneSwitch"
+        });
+
         timeline.play();
+
+        // event listener for scene switch at end of timeline
+        timeline.on("sceneSwitch", () => {
+            this.scene.start("titleScene");
+        });
     }
 
     update() {
+    }
+}
+
+class StartScene extends Phaser.Scene {
+    constructor() {
+        super("startScene");
+    }
+
+    preload() {
+        this.load.image('Button', './assets/images/Button.png');
+    }
+    
+    create() {
+        // add interactive start button (ensures user has clicked before playing audio in logo scene)
+        this.startButton = this.add.image(400, 300, 'Button');
+        this.startButton.setScale(10);
+        this.startButton.setInteractive();
+        this.startButton.on('pointerdown', () => {
+            this.scene.start("logoScene");
+        });
+        // create text
+            this.startButtonText = this.add.text(400, 300, 'Start', {
+            fontFamily: 'Pixelify Sans',
+            fontSize: '150px',
+            color: '#ffffff',
+            stroke: '#000000',
+            strokeThickness: 0,
+        }).setOrigin(0.5);
     }
 }
 
@@ -86,7 +187,7 @@ let config = {
     width: 800,
     height: 600,
     backgroundColor: 0x729482,
-    scene: [Logo],
+    scene: [StartScene, Logo, TitleScreen],
     // code to fix render settings to work for pixel art
     render: {
         pixelArt: true,
