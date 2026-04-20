@@ -12,10 +12,31 @@ class LoadingScene extends Phaser.Scene {
     }
 
     create() {
-        this.savingText = this.add.text(80, 570, "Loading", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5); 
-        this.diceSpinningVideo = this.add.video(170, 570, 'diceSpinningVideo');
+        this.savingText = this.add.text(-100, 570, "Loading", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5); 
+        this.diceSpinningVideo = this.add.video(-50, 570, 'diceSpinningVideo');
         this.diceSpinningVideo.setScale(0.05);
         this.diceSpinningVideo.play(true);
+
+        this.timeline = this.add.timeline();
+        this.timeline.add({
+            at: 400,
+            tween: {
+                targets: this.savingText,
+                x: 80,
+                duration: 1000,
+                ease: 'Sine.Out'
+            }
+        });
+        this.timeline.add({
+            at: 0,
+            tween: {
+                targets: this.diceSpinningVideo,
+                x: 170,
+                duration: 1000,
+                ease: 'Sine.Out'
+            }
+        });
+        this.timeline.play();
 
         this.time.delayedCall(9000, () => {
             this.thankYouText = this.add.text(500, -100, "(this is the end of the demo)", {
@@ -44,8 +65,9 @@ class SaveScene extends Phaser.Scene {
     }
 
     create() {
-        this.savingText = this.add.text(70, 570, "Saving", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
-        this.warningText = this.add.text(500, 300, "When the\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0logo appears in the bottom left, the game is saving your progress, DON’T quit out while the game is saving", {
+        this.saveRectangle = this.add.rectangle(500, -90, 730, 130, 0x02704a);
+        this.savingText = this.add.text(-100, 570, "Saving", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
+        this.warningText = this.add.text(500, -100, "When the\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0logo appears in the bottom left, the game is saving your progress, DON’T quit out while the game is saving", {
             fontFamily: 'Pixelify Sans', 
             fontSize: '32px', 
             fill: '#fff',
@@ -57,39 +79,64 @@ class SaveScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         // add both the cat pictures
-        this.MojiFaceImage = this.add.image(360, 267, 'catFace');
+        this.MojiFaceImage = this.add.image(360, -50, 'catFace');
         this.MojiFaceImage.setScale(3);
 
-        this.savingMojiFaceImage = this.add.image(155, 570, 'savingMojiFace');
+        this.savingMojiFaceImage = this.add.image(-50, 570, 'savingMojiFace');
         this.savingMojiFaceImage.setScale(3);
 
         // add timeline and tweens
         this.timeline = this.add.timeline();
-
+        this.timeline.add({
+            at: 200,
+            tween: {
+                targets: this.savingText,
+                x: 70,
+                duration: 1000,
+                ease: 'Sine.Out'
+            }
+        });
         this.timeline.add({
             at: 0,
             tween: {
                 targets: this.savingMojiFaceImage,
-                alpha: 0,
+                x: 155,
                 duration: 1000,
-                ease: 'Sine.InOut'
+                ease: 'Sine.Out'
+            }
+        });
+        this.timeline.add({
+            at: 700,
+            tween: {
+                targets: this.MojiFaceImage,
+                y: 267,
+                duration: 1000,
+                ease: 'Sine.Out'
+            }
+        });
+        this.timeline.add({
+            at: 0,
+            tween: {
+                targets: [this.warningText, this.saveRectangle],
+                y: 300,
+                duration: 1000,
+                ease: 'Sine.Out'
             }
         });
         this.timeline.add({
             at: 1000,
             tween: {
                 targets: this.savingMojiFaceImage,
-                alpha: 1,
+                alpha: 0,
                 duration: 1000,
                 ease: 'Sine.InOut'
             }
         });
-
         this.timeline.add({
             at: 2000,
             tween: {
                 targets: this.savingMojiFaceImage,
-                alpha: 0,
+                alpha: 1,
                 duration: 1000,
                 ease: 'Sine.InOut'
             }
@@ -99,12 +146,22 @@ class SaveScene extends Phaser.Scene {
             at: 3000,
             tween: {
                 targets: this.savingMojiFaceImage,
+                alpha: 0,
+                duration: 1000,
+                ease: 'Sine.InOut'
+            }
+        });
+
+        this.timeline.add({
+            at: 4000,
+            tween: {
+                targets: this.savingMojiFaceImage,
                 alpha: 1,
                 duration: 1000,
                 ease: 'Sine.InOut',
                 onComplete: () => {
                     this.tweens.add({
-                        targets: this.warningText,
+                        targets: [this.warningText, this.saveRectangle],
                         y: -100,
                         duration: 1000,
                         ease: 'Sine.In',
@@ -129,7 +186,7 @@ class SaveScene extends Phaser.Scene {
                         onComplete: () => {
                             this.cameras.main.fadeOut(1000, 0, 91, 61);
                             this.time.delayedCall(1000, () => {
-                                this.scene.start("LoadingScene");
+                                this.scene.start("loadingScene");
                             });
                         }
                     });
@@ -138,10 +195,6 @@ class SaveScene extends Phaser.Scene {
         });
 
         this.timeline.play();
-    }
-
-    update() {
-
     }
 }
 
@@ -318,8 +371,23 @@ class TitleScreen extends Phaser.Scene {
         });
 
         this.timeline.play();
+
+        this.time.delayedCall(5000, () => {
+            this.pulseTween = this.tweens.add({
+                targets: this.dice1,
+                scale: 10.5,
+                duration: 500,
+                yoyo: true,
+                repeat: -1
+            });
+        });
         this.dice1.setInteractive();
         this.dice1.on('pointerover', () => {
+            
+            if (this.pulseTween) {
+                this.pulseTween.stop();
+            }
+
             this.tweens.add({
                 targets: this.dice1,
                 scale: 11,
@@ -332,8 +400,20 @@ class TitleScreen extends Phaser.Scene {
                 targets: this.dice1,
                 scale: 10,
                 duration: 200,
-                ease: 'Sine.InOut'
-            });
+                ease: 'Sine.InOut',
+                onComplete: () => {
+                    // Restart the pulse after hover ends
+                    if (this.pulseTween) {
+                        this.pulseTween = this.tweens.add({
+                            targets: this.dice1,
+                            scale: 10.5,
+                            duration: 500,
+                            yoyo: true,
+                            repeat: -1
+                        });
+                    }
+                }
+            })
         });
         this.dice1.on('pointerdown', () => {
             this.timeline.stop();
@@ -602,7 +682,7 @@ let config = {
     width: 1000,
     height: 600,
     backgroundColor: 0x0a5239,
-    scene: [LoadingScene, SaveScene, StartScene, TitleScreen, Logo],
+    scene: [StartScene, SaveScene, LoadingScene, TitleScreen, Logo],
     // code to fix render settings to work for pixel art
     render: {
         pixelArt: true,
