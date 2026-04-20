@@ -60,7 +60,7 @@ Videos:
 * dice rolling video used for title screen made by me (Made in Unity, video edited with Clipchamp)
 
 Fonts:
-Title Font: Pixemon Trial Font, made by twinletter,
+* Title Font: Pixemon Trial Font, made by twinletter,
 https://www.fontspace.com/pixemon-trial-font-f107824
-Font used for all other text: Pixelify Sans, designed by Stefie Justprince,
+* Font used for all other text: Pixelify Sans, designed by Stefie Justprince,
 https://fonts.google.com/specimen/Pixelify+Sans?query=Stefie+Justprince
