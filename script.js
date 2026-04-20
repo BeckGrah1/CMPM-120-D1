@@ -70,6 +70,7 @@ class LoadingScene extends Phaser.Scene {
             this.BackToStartButton.on('pointerdown', () => {
                 this.cameras.main.fadeOut(1000, 0, 91, 61);
                 this.time.delayedCall(1000, () => {
+                    this.sound.stopAll();
                     this.scene.start("startScene");
                 });
             });
@@ -847,7 +848,16 @@ let config = {
     },
 }
 
-// Makes sure fonts are loaded before starting the game
-document.fonts.ready.then(() => {
-    const game = new Phaser.Game(config);
+// Wait for fonts then start game
+WebFont.load({
+    google: {
+        families: ['Pixelify+Sans:400,700']
+    },
+    active: function() {
+        const game = new Phaser.Game(config);
+    },
+    // In case fonts fail to load, start the game anyway
+    inactive: function() {
+        const game = new Phaser.Game(config);
+    }
 });
