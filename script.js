@@ -678,7 +678,7 @@ class StartScene extends Phaser.Scene {
         // pulse tween for start button
         this.pulseStartTween = this.tweens.add({
                 targets: this.startButton,
-                scale: 8.5,
+                scale: 8.2,
                 duration: 1000,
                 yoyo: true,
                 repeat: -1
@@ -691,7 +691,7 @@ class StartScene extends Phaser.Scene {
 
             this.tweens.add({
                 targets: this.startButton,
-                scale: 8.7,
+                scale: 8.5,
                 duration: 200,
                 ease: 'Sine.Out'
             });
@@ -707,7 +707,7 @@ class StartScene extends Phaser.Scene {
                     if (this.pulseStartTween) {
                         this.pulseStartTween = this.tweens.add({
                             targets: this.startButton,
-                            scale: 8.5,
+                            scale: 8.2,
                             duration: 1000,
                             yoyo: true,
                             repeat: -1
@@ -720,7 +720,7 @@ class StartScene extends Phaser.Scene {
         // pulse tween for fullscreen button
         this.pulseFullScreenTween = this.tweens.add({
             targets: this.fullScreenButton,
-            displayWidth: 315,
+            displayWidth: 310,
             displayHeight: 79,
             duration: 1000,
             yoyo: true,
@@ -735,7 +735,7 @@ class StartScene extends Phaser.Scene {
 
             this.tweens.add({
                 targets: this.fullScreenButton,
-                displayWidth: 320,
+                displayWidth: 315,
                 displayHeight: 82,
                 duration: 200,
                 ease: 'Sine.Out'
@@ -754,7 +754,7 @@ class StartScene extends Phaser.Scene {
                     if (this.pulseFullScreenTween) {
                         this.pulseFullScreenTween = this.tweens.add({
                             targets: this.fullScreenButton,
-                            displayWidth: 315,
+                            displayWidth: 310,
                             displayHeight: 79,
                             duration: 1000,
                             yoyo: true,
