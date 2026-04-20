@@ -1,8 +1,3 @@
-This is the start of my D1 project for CMPM 120
-
-
-
-
 Key Requirements:
 * 3+ distinct visual scenes:
     - Logo Scene
@@ -10,7 +5,9 @@ Key Requirements:
     - LoadingScreen Scene
 * 2+ audio assets:
     - backgroundMusic.mp3 (./assets/audio/backgroundMusic.mp3)
+        - Plays in Logo Scene
     - catMeow.mp3 (./assets/audio/catMeow.mp3)
+        - Plays in Logo Scene
 * 2+ image assets:
     - Moji_Pixel_Idle_Spritesheet.png (./assets/images/Moji_Pixel_Idle_Spritesheet.png)
         - Used when the cat is standing still during the logo scene
@@ -26,7 +23,7 @@ Key Requirements:
 * 1+ multi-line text:
     - during the SaveScreen Scene, a multi-line text is used
 * 1+ fading scene transition:
-    - used between the TitleScreen and the SavingScreen
+    - used between the Logo Scene and the TitleScreen Scene (look close, fades to darker more saturated green)
 * 1+ object motion animation:
     - Many different examples, the first is the cat sliding from the left during the Logo Scene
 
