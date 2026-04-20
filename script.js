@@ -8,8 +8,6 @@ class SaveScene extends Phaser.Scene {
     }
 
     create() {
-        this.cameras.main.setBackgroundColor(0x0a5239);
-
         this.cameras.main.fadeIn(500, 2, 91, 60);
     }
 
@@ -243,7 +241,7 @@ class TitleScreen extends Phaser.Scene {
                     ease: 'Sine.In'
                 }
             });
-            
+
             this.timeline.play();
         });
     }
@@ -253,6 +251,10 @@ class TitleScreen extends Phaser.Scene {
 class Logo extends Phaser.Scene {
     constructor() {
         super("logoScene");
+    }
+
+    init() {
+        this.cameras.main.setBackgroundColor(0x729482);
     }
 
     preload() {
@@ -267,6 +269,7 @@ class Logo extends Phaser.Scene {
     }
 
     create() {
+
         // start background music and set it to loop
         this.sound.play('backgroundMusic', { loop: true });
 
@@ -398,6 +401,10 @@ class StartScene extends Phaser.Scene {
         super("startScene");
     }
 
+    init() {
+        this.cameras.main.setBackgroundColor(0x729482);
+    }
+
     preload() {
         this.load.image('Button', './assets/images/Button.png');
     }
@@ -425,7 +432,7 @@ let config = {
     type: Phaser.WEBGL,
     width: 1000,
     height: 600,
-    backgroundColor: 0x729482,
+    backgroundColor: 0x0a5239,
     scene: [TitleScreen, StartScene, Logo, SaveScene],
     // code to fix render settings to work for pixel art
     render: {
