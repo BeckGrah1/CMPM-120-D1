@@ -9,9 +9,11 @@ class LoadingScene extends Phaser.Scene {
 
     preload() {
         this.diceSpinningVideo = this.load.video('diceSpinningVideo', './assets/MP4s/spinningDice.mp4', 'loadeddata', false, true);
+        this.BackToStartButton = this.load.image('BackToStartButton', './assets/images/Button.png');
     }
 
     create() {
+        // set up objects
         this.savingText = this.add.text(-100, 570, "Loading", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5); 
         this.diceSpinningVideo = this.add.video(-50, 570, 'diceSpinningVideo');
         this.diceSpinningVideo.setScale(0.05);
@@ -39,17 +41,82 @@ class LoadingScene extends Phaser.Scene {
         this.timeline.play();
 
         this.time.delayedCall(9000, () => {
-            this.thankYouText = this.add.text(500, -100, "(this is the end of the demo)", {
+            this.BackToStartButton = this.add.image(500, -100, 'BackToStartButton');
+            this.BackToStartButton.setScale(2.2);
+            this.ReturnText = this.add.text(500, -100, "Return", {
+                fontFamily: 'Pixelify Sans',
+                fontSize: '32px',
+                fill: '#fff'
+            }).setOrigin(0.5);
+            this.endOfDemoText = this.add.text(500, -100, "(this is the end of the demo)", {
                 fontFamily: 'Pixelify Sans',
                 fontSize: '32px',
                 fill: '#fff'
             }).setOrigin(0.5);
             this.tweens.add({
-                targets: this.thankYouText,
+                targets: this.endOfDemoText,
                 y: 300,
-                duration: 1000,
+                duration: 1500,
                 ease: 'Sine.Out',
             });
+            this.tweens.add({
+                targets: [this.BackToStartButton, this.ReturnText],
+                y: 400,
+                duration: 1300,
+                ease: 'Sine.Out',
+            });
+            
+            this.BackToStartButton.setInteractive();
+            this.BackToStartButton.on('pointerdown', () => {
+                this.cameras.main.fadeOut(1000, 0, 91, 61);
+                this.time.delayedCall(1000, () => {
+                    this.scene.start("startScene");
+                });
+            });
+
+            this.pulseTween = this.tweens.add({
+                targets: this.BackToStartButton,
+                scale: 2.3,
+                duration: 1000,
+                ease: 'Sine.Out',
+                yoyo: true,
+                repeat: -1
+            });
+
+            this.BackToStartButton.on('pointerover', () => {
+                if (this.pulseTween) {
+                    this.pulseTween.stop();
+                }
+
+                this.tweens.add({
+                    targets: this.BackToStartButton,
+                    scale: 2.4,
+                    duration: 200,
+                    ease: 'Sine.Out'
+                });
+            });
+
+            this.BackToStartButton.on('pointerout', () => {
+                this.tweens.add({
+                    targets: this.BackToStartButton,
+                    scale: 2.2,
+                    duration: 300,
+                    ease: 'Sine.InOut',
+                    onComplete: () => {
+                        // Restart the pulse after hover ends
+                        if (this.pulseTween) {
+                            this.pulseTween = this.tweens.add({
+                                targets: this.BackToStartButton,
+                                scale: 2.3,
+                                duration: 1000,
+                                yoyo: true,
+                                repeat: -1
+                            });
+                        }
+                    }
+                });
+            });
+
         });
     }
 }
@@ -700,7 +767,7 @@ class StartScene extends Phaser.Scene {
             this.tweens.add({
                 targets: this.startButton,
                 scale: 8,
-                duration: 200,
+                duration: 300,
                 ease: 'Sine.InOut',
                 onComplete: () => {
                     // Restart the pulse after hover ends
@@ -747,7 +814,7 @@ class StartScene extends Phaser.Scene {
                 targets: this.fullScreenButton,
                 displayWidth: 300,
                 displayHeight: 75,
-                duration: 200,
+                duration: 300,
                 ease: 'Sine.InOut',
                 onComplete: () => {
                     // Restart the pulse after hover ends
@@ -772,7 +839,7 @@ let config = {
     width: 1000,
     height: 600,
     backgroundColor: 0x0a5239,
-    scene: [StartScene, SaveScene, LoadingScene, TitleScreen, Logo],
+    scene: [StartScene, LoadingScene,  SaveScene, TitleScreen, Logo],
     // code to fix render settings to work for pixel art
     render: {
         pixelArt: true,
