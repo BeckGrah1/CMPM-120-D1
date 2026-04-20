@@ -847,4 +847,7 @@ let config = {
     },
 }
 
-let game = new Phaser.Game(config);
+// Makes sure fonts are loaded before starting the game
+document.fonts.ready.then(() => {
+    const game = new Phaser.Game(config);
+});
