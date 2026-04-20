@@ -632,7 +632,7 @@ class StartScene extends Phaser.Scene {
         // add interactive start button (ensures user has clicked before playing audio in logo scene)
         this.startButton = this.add.image(500, 170, 'Button');
         this.fullScreenButton = this.add.image(500, 500, 'Button');
-        this.startButton.setScale(9);
+        this.startButton.setScale(8);
         this.fullScreenButton.setDisplaySize(300, 75);
         this.startButton.setInteractive();
         this.startButton.on('pointerdown', () => {
@@ -646,7 +646,7 @@ class StartScene extends Phaser.Scene {
             stroke: '#000000',
             strokeThickness: 0,
         }).setOrigin(0.5);
-        this.fullscreenRecommendationText = this.add.text(500, 380, 'Make sure your browser is in fullscreen mode for best experience\n(note some transitions require user input)', {
+        this.fullscreenRecommendationText = this.add.text(500, 385, 'Make sure your browser is in fullscreen mode for best experience\n(note some transitions require user input, clickable objects will pulse)', {
             fontFamily: 'Pixelify Sans',
             fontSize: '32px',
             color: '#ffffff',
@@ -674,6 +674,96 @@ class StartScene extends Phaser.Scene {
             stroke: '#000000',
             strokeThickness: 0,
         }).setOrigin(0.5);
+
+        // pulse tween for start button
+        this.pulseStartTween = this.tweens.add({
+                targets: this.startButton,
+                scale: 8.5,
+                duration: 1000,
+                yoyo: true,
+                repeat: -1
+        });
+        this.startButton.on('pointerover', () => {
+            
+            if (this.pulseStartTween) {
+                this.pulseStartTween.stop();
+            }
+
+            this.tweens.add({
+                targets: this.startButton,
+                scale: 8.7,
+                duration: 200,
+                ease: 'Sine.Out'
+            });
+        });
+        this.startButton.on('pointerout', () => {
+            this.tweens.add({
+                targets: this.startButton,
+                scale: 8,
+                duration: 200,
+                ease: 'Sine.InOut',
+                onComplete: () => {
+                    // Restart the pulse after hover ends
+                    if (this.pulseStartTween) {
+                        this.pulseStartTween = this.tweens.add({
+                            targets: this.startButton,
+                            scale: 8.5,
+                            duration: 1000,
+                            yoyo: true,
+                            repeat: -1
+                        });
+                    }
+                }
+            })
+        });
+
+        // pulse tween for fullscreen button
+        this.pulseFullScreenTween = this.tweens.add({
+            targets: this.fullScreenButton,
+            displayWidth: 315,
+            displayHeight: 79,
+            duration: 1000,
+            yoyo: true,
+            repeat: -1
+        });
+
+        this.fullScreenButton.on('pointerover', () => {
+            
+            if (this.pulseFullScreenTween) {
+                this.pulseFullScreenTween.stop();
+            }
+
+            this.tweens.add({
+                targets: this.fullScreenButton,
+                displayWidth: 320,
+                displayHeight: 82,
+                duration: 200,
+                ease: 'Sine.Out'
+            });
+        });
+
+        this.fullScreenButton.on('pointerout', () => {
+            this.tweens.add({
+                targets: this.fullScreenButton,
+                displayWidth: 300,
+                displayHeight: 75,
+                duration: 200,
+                ease: 'Sine.InOut',
+                onComplete: () => {
+                    // Restart the pulse after hover ends
+                    if (this.pulseFullScreenTween) {
+                        this.pulseFullScreenTween = this.tweens.add({
+                            targets: this.fullScreenButton,
+                            displayWidth: 315,
+                            displayHeight: 79,
+                            duration: 1000,
+                            yoyo: true,
+                            repeat: -1
+                        });
+                    }
+                }
+            });
+        });
     }
 }
 
