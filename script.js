@@ -4,11 +4,11 @@ class SaveScene extends Phaser.Scene {
     }
 
     preload() {
-
+        this.MojiFace = this.load.image('catFace', './assets/MojiFace.png');
     }
 
     create() {
-        this.cameras.main.fadeIn(500, 2, 91, 60);
+        this.firstText = this.add.text(75, 570, "Saving", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
     }
 
     update() {
@@ -421,20 +421,50 @@ class StartScene extends Phaser.Scene {
     
     create() {
         // add interactive start button (ensures user has clicked before playing audio in logo scene)
-        this.startButton = this.add.image(500, 300, 'Button');
+        this.startButton = this.add.image(500, 200, 'Button');
+        this.fullScreenButton = this.add.image(500, 500, 'Button');
         this.startButton.setScale(10);
+        this.fullScreenButton.setDisplaySize(300, 75);
         this.startButton.setInteractive();
         this.startButton.on('pointerdown', () => {
             this.scene.start("logoScene");
         });
         // create text
-            this.startButtonText = this.add.text(500, 300, 'Start', {
-                fontFamily: 'Pixelify Sans',
-                fontSize: '150px',
-                color: '#ffffff',
-                stroke: '#000000',
-                strokeThickness: 0,
-            }).setOrigin(0.5);
+        this.startButtonText = this.add.text(500, 200, 'Start', {
+            fontFamily: 'Pixelify Sans',
+            fontSize: '150px',
+            color: '#ffffff',
+            stroke: '#000000',
+            strokeThickness: 0,
+        }).setOrigin(0.5);
+        this.fullscreenRecommendationText = this.add.text(500, 400, 'Make sure your browser is in fullscreen mode for best experience', {
+            fontFamily: 'Pixelify Sans',
+            fontSize: '32px',
+            color: '#ffffff',
+            stroke: '#000000',
+            strokeThickness: 0,
+            wordWrap: {
+                width: 600,
+                useAdvancedWrap: true
+            },
+            align: 'center'
+        }).setOrigin(0.5);
+
+        this.fullScreenButton.setInteractive();
+        this.fullScreenButton.on('pointerdown', () => {
+            if (!this.scale.isFullscreen) {
+                this.scale.startFullscreen();
+            } else {
+                this.scale.stopFullscreen();
+            }
+        });
+        this.fullScreenButtonText = this.add.text(500, 500, 'Toggle Fullscreen', {
+            fontFamily: 'Pixelify Sans',
+            fontSize: '32px',
+            color: '#ffffff',
+            stroke: '#000000',
+            strokeThickness: 0,
+        }).setOrigin(0.5);
     }
 }
 
@@ -443,7 +473,7 @@ let config = {
     width: 1000,
     height: 600,
     backgroundColor: 0x0a5239,
-    scene: [TitleScreen, StartScene, Logo, SaveScene],
+    scene: [StartScene, SaveScene, TitleScreen, Logo],
     // code to fix render settings to work for pixel art
     render: {
         pixelArt: true,
