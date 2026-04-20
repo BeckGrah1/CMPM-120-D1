@@ -118,20 +118,20 @@ class Logo extends Phaser.Scene {
         });
 
         timeline.add({
-            at: 6000,
+            at: 7500,
             tween: {
                 targets: this.pixelCatText,
-                y: 700,
+                y: 1000,
                 duration: 2000,
                 ease: 'Sine.In'
             }
         })
 
         timeline.add({
-            at: 6000,
+            at: 7000,
             tween: {
                 targets: this.madeByText,
-                y: -100,
+                y: -500,
                 duration: 2000,
                 ease: 'Sine.In'
             }
