@@ -630,30 +630,30 @@ class StartScene extends Phaser.Scene {
     
     create() {
         // add interactive start button (ensures user has clicked before playing audio in logo scene)
-        this.startButton = this.add.image(500, 200, 'Button');
+        this.startButton = this.add.image(500, 170, 'Button');
         this.fullScreenButton = this.add.image(500, 500, 'Button');
-        this.startButton.setScale(10);
+        this.startButton.setScale(9);
         this.fullScreenButton.setDisplaySize(300, 75);
         this.startButton.setInteractive();
         this.startButton.on('pointerdown', () => {
             this.scene.start("logoScene");
         });
         // create text
-        this.startButtonText = this.add.text(500, 200, 'Start', {
+        this.startButtonText = this.add.text(500, 170, 'Start', {
             fontFamily: 'Pixelify Sans',
             fontSize: '150px',
             color: '#ffffff',
             stroke: '#000000',
             strokeThickness: 0,
         }).setOrigin(0.5);
-        this.fullscreenRecommendationText = this.add.text(500, 400, 'Make sure your browser is in fullscreen mode for best experience', {
+        this.fullscreenRecommendationText = this.add.text(500, 380, 'Make sure your browser is in fullscreen mode for best experience\n(note some transitions require user input)', {
             fontFamily: 'Pixelify Sans',
             fontSize: '32px',
             color: '#ffffff',
             stroke: '#000000',
             strokeThickness: 0,
             wordWrap: {
-                width: 600,
+                width: 680,
                 useAdvancedWrap: true
             },
             align: 'center'
