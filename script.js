@@ -3,12 +3,33 @@ class LoadingScene extends Phaser.Scene {
         super("loadingScene");
     }
 
+    init() {
+        this.cameras.main.setBackgroundColor(0x005b3d);
+    }
+
     preload() {
-        
+        this.diceSpinningVideo = this.load.video('diceSpinningVideo', './assets/MP4s/spinningDice.mp4', 'loadeddata', false, true);
     }
 
     create() {
+        this.savingText = this.add.text(80, 570, "Loading", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5); 
+        this.diceSpinningVideo = this.add.video(170, 570, 'diceSpinningVideo');
+        this.diceSpinningVideo.setScale(0.05);
+        this.diceSpinningVideo.play(true);
 
+        this.time.delayedCall(9000, () => {
+            this.thankYouText = this.add.text(500, -100, "(this is the end of the demo)", {
+                fontFamily: 'Pixelify Sans',
+                fontSize: '32px',
+                fill: '#fff'
+            }).setOrigin(0.5);
+            this.tweens.add({
+                targets: this.thankYouText,
+                y: 300,
+                duration: 1000,
+                ease: 'Sine.Out',
+            });
+        });
     }
 }
 
@@ -106,7 +127,10 @@ class SaveScene extends Phaser.Scene {
                         duration: 1000,
                         ease: 'Sine.In',
                         onComplete: () => {
-                            this.scene.start("LoadingScene");
+                            this.cameras.main.fadeOut(1000, 0, 91, 61);
+                            this.time.delayedCall(1000, () => {
+                                this.scene.start("LoadingScene");
+                            });
                         }
                     });
                 }
@@ -578,7 +602,7 @@ let config = {
     width: 1000,
     height: 600,
     backgroundColor: 0x0a5239,
-    scene: [SaveScene, StartScene, TitleScreen, Logo, LoadingScene],
+    scene: [LoadingScene, SaveScene, StartScene, TitleScreen, Logo],
     // code to fix render settings to work for pixel art
     render: {
         pixelArt: true,
