@@ -1,14 +1,119 @@
+class LoadingScene extends Phaser.Scene {
+    constructor() {
+        super("loadingScene");
+    }
+
+    preload() {
+        
+    }
+
+    create() {
+
+    }
+}
+
 class SaveScene extends Phaser.Scene {
     constructor() {
         super("saveScene");
     }
 
     preload() {
-        this.MojiFace = this.load.image('catFace', './assets/MojiFace.png');
+        this.MojiFace = this.load.image('catFace', './assets/images/MojiFace.png');
+        this.savingMojiFace = this.load.image('savingMojiFace', './assets/images/MojiFace.png');
     }
 
     create() {
-        this.firstText = this.add.text(75, 570, "Saving", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
+        this.savingText = this.add.text(70, 570, "Saving", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
+        this.warningText = this.add.text(500, 300, "When the\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0logo appears in the bottom left, the game is saving your progress, DON’T quit out while the game is saving", {
+            fontFamily: 'Pixelify Sans', 
+            fontSize: '32px', 
+            fill: '#fff',
+            wordWrap: {
+                width: 700,
+                useAdvancedWrap: true
+            },
+            align: 'center'
+        }).setOrigin(0.5);
+
+        // add both the cat pictures
+        this.MojiFaceImage = this.add.image(360, 267, 'catFace');
+        this.MojiFaceImage.setScale(3);
+
+        this.savingMojiFaceImage = this.add.image(155, 570, 'savingMojiFace');
+        this.savingMojiFaceImage.setScale(3);
+
+        // add timeline and tweens
+        this.timeline = this.add.timeline();
+
+        this.timeline.add({
+            at: 0,
+            tween: {
+                targets: this.savingMojiFaceImage,
+                alpha: 0,
+                duration: 1000,
+                ease: 'Sine.InOut'
+            }
+        });
+        this.timeline.add({
+            at: 1000,
+            tween: {
+                targets: this.savingMojiFaceImage,
+                alpha: 1,
+                duration: 1000,
+                ease: 'Sine.InOut'
+            }
+        });
+
+        this.timeline.add({
+            at: 2000,
+            tween: {
+                targets: this.savingMojiFaceImage,
+                alpha: 0,
+                duration: 1000,
+                ease: 'Sine.InOut'
+            }
+        });
+
+        this.timeline.add({
+            at: 3000,
+            tween: {
+                targets: this.savingMojiFaceImage,
+                alpha: 1,
+                duration: 1000,
+                ease: 'Sine.InOut',
+                onComplete: () => {
+                    this.tweens.add({
+                        targets: this.warningText,
+                        y: -100,
+                        duration: 1000,
+                        ease: 'Sine.In',
+                    });
+                    this.tweens.add({
+                        targets: this.MojiFaceImage,
+                        y: -50,
+                        duration: 870,
+                        ease: 'Sine.In',
+                    });
+                    this.tweens.add({
+                        targets: this.savingText,
+                        x: -200,
+                        duration: 1000,
+                        ease: 'Sine.In',
+                    });
+                    this.tweens.add({
+                        targets: this.savingMojiFaceImage,
+                        x: -100,
+                        duration: 1000,
+                        ease: 'Sine.In',
+                        onComplete: () => {
+                            this.scene.start("LoadingScene");
+                        }
+                    });
+                }
+            }
+        });
+
+        this.timeline.play();
     }
 
     update() {
@@ -473,7 +578,7 @@ let config = {
     width: 1000,
     height: 600,
     backgroundColor: 0x0a5239,
-    scene: [StartScene, SaveScene, TitleScreen, Logo],
+    scene: [SaveScene, StartScene, TitleScreen, Logo, LoadingScene],
     // code to fix render settings to work for pixel art
     render: {
         pixelArt: true,
