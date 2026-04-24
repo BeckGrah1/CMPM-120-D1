@@ -559,6 +559,7 @@ class Logo extends Phaser.Scene {
 
         // start background music and set it to loop
         this.sound.play('backgroundMusic', { loop: true });
+        
 
         // add text to scene
         this.madeByText = this.add.text(500, -100, "A game by", {fontFamily: 'Pixelify Sans', fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
@@ -837,8 +838,13 @@ class StartScene extends Phaser.Scene {
 
 let config = {
     type: Phaser.WEBGL,
-    width: 1000,
-    height: 600,
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 1000,
+        height: 600
+    },
+    parent: "root",
     backgroundColor: 0x0a5239,
     scene: [StartScene, LoadingScene,  SaveScene, TitleScreen, Logo],
     // code to fix render settings to work for pixel art
