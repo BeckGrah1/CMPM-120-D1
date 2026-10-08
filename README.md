@@ -1,3 +1,6 @@
+This is a demo project made in Phaser 4 for the class CMPM 120 at UCSC, demonstrating a potential starting screen for a game including screens for the company name, a title screen, a saving screen, and a loading screen. Specific requirements for the project and how they were accomplished, as well as asset credits, are listed below.
+
+
 Key Requirements:
 * 3+ distinct visual scenes:
     - Logo
